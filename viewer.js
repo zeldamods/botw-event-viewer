@@ -365,7 +365,7 @@ async function get_messages(data) {
 
 function load(cb) {
 
-    fetch(`https://eventviewer.zeldamods.org/${params.data}`).then((res) => res.json()).then(async (data) => {
+    fetch(params.data).then((res) => res.json()).then(async (data) => {
     if (!data) {
       return;
     }
