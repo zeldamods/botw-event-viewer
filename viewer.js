@@ -16,6 +16,8 @@ const params = getParams(window.location.search);
 let graph;
 let eventNamesVisible = params.names;
 let eventParamVisible = params.params;
+let ev_messages = {};
+
 
 const cboxShowParams = document.querySelector('#cbox-showparams');
 cboxShowParams.checked = eventParamVisible;
@@ -64,7 +66,15 @@ function getNodeLabel(node) {
         continue;
       }
       const valueStr = typeof value === 'number' ? value.toFixed(6).replace(/\.?0*$/, '') : value;
-      label += `\n${key}: ${valueStr}`;
+        label += `\n${key}: ${valueStr}`;
+        if(key == "MessageId") {
+            const dash = "\n" + "-".repeat(40) + "\n";
+            const msg = ev_messages[valueStr];
+            if(msg) {
+                let text = msg.contents.filter(item => item.text).map(item => item.text).join("");
+                label += `${dash}${text}${dash}`;
+            }
+        }
       i++;
     }
   }
@@ -333,11 +343,35 @@ function select(id) {
   }
 }
 
+function unique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+async function get_messages(data) {
+    // Get unique list of message files
+    const files = data.filter(entry => entry.type == 'node')
+          .filter(node => node.data)
+          .filter(node => node.data.params)
+          .filter(node => node.data.params.MessageId)
+          .map(node => node.data.params.MessageId)
+          .map(msgid => msgid.split(":")[0])
+          .filter(unique);
+    // Fetch all message files and add into 
+    await Promise.all(files.map(file => fetch(`msg/${file}.json`).then(res => res.json())))
+        .then(values =>
+            values.forEach(value => { ev_messages = Object.assign(ev_messages, value); })
+        );
+}
+
 function load(cb) {
-  fetch(params.data).then((res) => res.json()).then((data) => {
+
+    fetch(`https://eventviewer.zeldamods.org/${params.data}`).then((res) => res.json()).then(async (data) => {
     if (!data) {
       return;
     }
+
+    await get_messages(data);
+
     graph.update(data);
     graph.render();
     const selected = graph.renderer.getSelection();

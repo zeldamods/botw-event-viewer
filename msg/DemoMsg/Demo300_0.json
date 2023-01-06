@@ -1,0 +1,1 @@
+{"DemoMsg/Demo300_0:Deku_FirstFailure00": {"contents": [{"control": {"kind": "raw", "one": {"two": {"field_1": 0}}}}, {"control": {"kind": "animation", "name": "CustomMasterSword"}}, {"control": {"kind": "text_size", "percent": 125}}, {"text": "Enough."}, {"control": {"kind": "text_size", "percent": 100}}, {"control": {"kind": "auto_advance", "frames": 60}}]}}
