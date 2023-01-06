@@ -1,0 +1,1 @@
+[{"type": "node", "id": -1000, "data": {"name": "Talk"}, "node_type": "entry"}, {"type": "edge", "source": -1000, "target": 0, "data": {}}, {"type": "node", "id": 0, "data": {"actor": "EventSystemActor", "action": "Demo_CallDemo", "name": "Event1", "params": {"IsWaitFinish": true, "DemoName": "Demo034_0", "EntryPointName": "Demo034_0_2", "EndFade": 0}}, "node_type": "action"}]

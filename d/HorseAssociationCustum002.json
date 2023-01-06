@@ -1,0 +1,1 @@
+[{"type": "node", "id": -1000, "data": {"name": "Talk"}, "node_type": "entry"}, {"type": "edge", "source": -1000, "target": 0, "data": {}}, {"type": "node", "id": 0, "data": {"res_flowchart_name": "HorseAssociationCustum001", "entry_point_name": "CustumNPC_0", "name": "Event0", "params": {"HorseCustumActor": "HorseAssociationCustum002"}}, "node_type": "sub_flow"}]

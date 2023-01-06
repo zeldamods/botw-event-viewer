@@ -1,0 +1,32 @@
+/* Copyright 2018 leoetlino <leo@leolam.fr> - Licensed under MIT */
+
+@font-face {
+  font-family: Hylia;
+  src: url("https://static.zeldamods.org/assets/HyliaSerifBeta-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Calamity;
+  src: url("https://static.zeldamods.org/assets/Calamity-Regular.otf") format("opentype");
+}
+
+body {
+  background-image: url(https://static.zeldamods.org/assets/bg.png);
+  background-attachment: fixed;
+  font-family: Calamity;
+  color: white;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: Hylia;
+  font-weight: normal;
+  color: white;
+  font-size: 200%;
+}
+
+a {
+  color: #29d1fc !important;
+  text-decoration: none;
+}
