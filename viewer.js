@@ -16,7 +16,8 @@ const params = getParams(window.location.search);
 let graph;
 let eventNamesVisible = params.names;
 let eventParamVisible = params.params;
-let ev_messages = {};
+let eventMessagesVisible = params.messages;
+let evMessages = {};
 
 
 const cboxShowParams = document.querySelector('#cbox-showparams');
@@ -31,6 +32,14 @@ const cboxShowNames = document.querySelector('#cbox-shownames');
 cboxShowNames.checked = eventNamesVisible;
 cboxShowNames.addEventListener('change', (event) => {
   eventNamesVisible = event.target.checked;
+  graph.refresh();
+  graph.renderAndKeepSelection();
+})
+
+const cboxShowMessages = document.querySelector('#cbox-showmessages');
+cboxShowMessages.checked = eventMessagesVisible;
+cboxShowMessages.addEventListener('change', (event) => {
+  eventMessagesVisible = event.target.checked;
   graph.refresh();
   graph.renderAndKeepSelection();
 })
@@ -66,15 +75,15 @@ function getNodeLabel(node) {
         continue;
       }
       const valueStr = typeof value === 'number' ? value.toFixed(6).replace(/\.?0*$/, '') : value;
-        label += `\n${key}: ${valueStr}`;
-        if(key == "MessageId") {
-            const dash = "\n" + "-".repeat(40) + "\n";
-            const msg = ev_messages[valueStr];
-            if(msg) {
-                let text = msg.contents.filter(item => item.text).map(item => item.text).join("");
-                label += `${dash}${text}${dash}`;
-            }
+      label += `\n${key}: ${valueStr}`;
+      if (key == 'MessageId' && eventMessagesVisible) {
+        const dash = "\n" + "-".repeat(40) + "\n";
+        const msg = evMessages[valueStr];
+        if(msg) {
+          const text = msg.contents.map(item => item.text).filter(item => item).join('');
+          label += `${dash}${text}${dash}`;
         }
+      }
       i++;
     }
   }
@@ -347,7 +356,7 @@ function unique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
-async function get_messages(data) {
+async function getMessages(data) {
     // Get unique list of message files
     const files = data.filter(entry => entry.type == 'node')
           .filter(node => node.data)
@@ -359,18 +368,17 @@ async function get_messages(data) {
     // Fetch all message files and add into 
     await Promise.all(files.map(file => fetch(`msg/${file}.json`).then(res => res.json())))
         .then(values =>
-            values.forEach(value => { ev_messages = Object.assign(ev_messages, value); })
+            values.forEach(value => { evMessages = Object.assign(evMessages, value); })
         );
 }
 
 function load(cb) {
-
     fetch(params.data).then((res) => res.json()).then(async (data) => {
     if (!data) {
       return;
     }
 
-    await get_messages(data);
+    await getMessages(data);
 
     graph.update(data);
     graph.render();
