@@ -1,0 +1,1 @@
+{"DemoMsg/Demo003_0:Demo003_0_Text000": {"contents": [{"control": {"kind": "animation", "name": "Activate"}}, {"text": "Sheikah Slate authenticated."}, {"control": {"kind": "pause", "length": "longer"}}, {"text": "\nDistilling rune..."}]}, "DemoMsg/Demo003_0:Demo003_0_Text005": {"contents": [{"control": {"kind": "animation", "name": "Activate"}}, {"text": "Rune extracted."}]}}
